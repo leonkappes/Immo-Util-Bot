@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const token = process.env.DISCORD_TOKEN;
+const token = process.env.DISCORD_TOKEN_IMMO;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -12,9 +12,9 @@ client.on('message', msg => {
 
 });
 
-const immoguildID = '652898771436568586';
-const mfdguildID = '758784259631874090';
-const mfdRoleID = '758785785255821393';
+const immoguildID = '607302555097235456';
+const mfdguildID = '690635527098990613';
+const mfdRoleID = '690643807418712114';
 
 client.on('guildMemberAdd', async (member) => {
     if(member.guild.id == mfdguildID) {

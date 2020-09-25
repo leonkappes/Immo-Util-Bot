@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immobot-deployment
+  labels:
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+    keel.sh/policy: "force"
+  annotations:
+    keel.sh/pollSchedule: "@every 1m"
+spec:
+  selector:
+    matchLabels:
+      app: immobot
+  template:
+    metadata:
+      labels:
+        app: immobot
+    spec:
+      containers:
+      - name: site
+        image: theleede/immobot:latest
+        imagePullPolicy: Always
+        env:
+            - name: DISCORD_TOKEN_IMMO
+              value: ""
+
