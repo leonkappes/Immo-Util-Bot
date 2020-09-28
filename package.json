@@ -4,7 +4,8 @@
   "description": "Immortal Sync and utility Bot",
   "main": "index.js",
   "scripts": {
-    "start": "node"
+    "start": "node",
+    "dev": "./node_modules/nodemon/bin/nodemon.js ."
   },
   "keywords": [
     "discord",
@@ -15,5 +16,8 @@
   "license": "MIT",
   "dependencies": {
     "discord.js": "^12.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }

@@ -1,17 +1,43 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
+const { Client, MessageMentions } = require('discord.js');
+const { promote } = require('./roleCommands');
+
+const client = new Client();
 const token = process.env.DISCORD_TOKEN_IMMO;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  console.log(`Start Timestamp: ${new Date().toLocaleDateString()}`)
+  console.log(`Start Timestamp: ${new Date().toLocaleString('de-DE')}`)
 });
 
-client.on('message', msg => {
-    if (!msg.guild) return;
+client.on('message', async (msg) => {
+    if (!msg.guild || msg.author.bot) return;
+    const testPattern = new RegExp(`^(${MessageMentions.USERS_PATTERN.source})\\s*`);
+    if(!testPattern.test(msg.content)) return;
 
+    const [, matchedMention] = msg.content.match(testPattern);
+    const args = msg.content.slice(matchedMention.length).trim().split(/ +/);
+    const command = args.shift().toLowerCase();
+    const mention = await msg.guild.members.fetch(matchedMention.substring(0, matchedMention.length - 1).substring(3));
+    
+    switch(command) {
+        case 'befördern':
+            promote(args, mention, msg.member, msg)
+            break;
+        case 'degradieren':
+            break;
+        case 'kripo':
+            break;
+        case 'ausbilder':
+            break;
+        case 'entlassen':
+            break;
+        default:
+            return;
+    }
 });
 
+
+//#region MFD Sync
 const immoguildID = '607302555097235456';
 const mfdguildID = '690635527098990613';
 const mfdRoleID = '690643807418712114';
@@ -47,5 +73,7 @@ client.on('guildMemberRemove', async (member) => {
         }
     }
 });
+
+//#endregion
 
 client.login(token);
