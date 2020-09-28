@@ -1,5 +1,5 @@
 const { Client, MessageMentions } = require('discord.js');
-const { promote } = require('./roleCommands');
+const { promote, demote, employ, toggleInstructor, unemploy } = require('./roleCommands');
 
 const client = new Client();
 const token = process.env.DISCORD_TOKEN_IMMO;
@@ -24,16 +24,23 @@ client.on('message', async (msg) => {
             promote(args, mention, msg.member, msg)
             break;
         case 'degradieren':
+            demote(args, mention, msg.member, msg)
             break;
         case 'kripo':
             break;
         case 'ausbilder':
+            toggleInstructor(args, mention, msg.member, msg)
             break;
         case 'entlassen':
+            unemploy(args, mention, msg.member, msg)
+            break;
+        case 'einstellen':
+            employ(args, mention, msg.member, msg)
             break;
         default:
             return;
     }
+    msg.delete();
 });
 
 
