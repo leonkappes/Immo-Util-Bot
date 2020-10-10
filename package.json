@@ -4,8 +4,9 @@
   "description": "Immortal Sync and utility Bot",
   "main": "index.js",
   "scripts": {
-    "start": "node",
-    "dev": "./node_modules/nodemon/bin/nodemon.js ."
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "run": "npm run build && npm start"
   },
   "keywords": [
     "discord",
@@ -18,6 +19,8 @@
     "discord.js": "^12.3.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "@types/node": "^14.11.8",
+    "nodemon": "^2.0.4",
+    "typescript": "^4.0.3"
   }
 }

@@ -1,11 +1,11 @@
-const { Client, MessageMentions } = require('discord.js');
-const { promote, demote, employ, toggleInstructor, unemploy } = require('./roleCommands');
+import { Client, MessageMentions }  from 'discord.js';
+import { promote, demote, employ, toggleInstructor, unemploy } from './roleCommands';
 
 const client = new Client();
 const token = process.env.DISCORD_TOKEN_IMMO;
 
 client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`Logged in as ${client.user!.tag}!`);
     console.log(`Start Timestamp: ${new Date().toLocaleString('de-DE')}`)
 });
 
@@ -18,28 +18,28 @@ client.on('message', async (msg) => {
     const testPattern = new RegExp(`^(${MessageMentions.USERS_PATTERN.source})\\s*`);
     if (!testPattern.test(msg.content)) return;
 
-    const [, matchedMention] = msg.content.match(testPattern);
+    const matchedMention = testPattern.exec(msg.content)!.toString();
     const args = msg.content.slice(matchedMention.length).trim().split(/ +/);
-    const command = args.shift().toLowerCase();
-    const mention = await msg.guild.members.fetch(matchedMention.substring(0, matchedMention.length - 1).substring(3));
+    const command = args.shift()!.toLowerCase();
+    const mention = await msg.guild.members.fetch(matchedMention!.substring(0, matchedMention.length - 1).substring(3));
 
     switch (command) {
         case 'befördern':
-            promote(args, mention, msg.member, msg)
+            promote(args, mention, msg.member!, msg)
             break;
         case 'degradieren':
-            demote(args, mention, msg.member, msg)
+            demote(args, mention, msg.member!, msg)
             break;
         case 'kripo':
             break;
         case 'ausbilder':
-            toggleInstructor(args, mention, msg.member, msg)
+            toggleInstructor(args, mention, msg.member!, msg)
             break;
         case 'entlassen':
-            unemploy(args, mention, msg.member, msg)
+            unemploy(args, mention, msg.member!, msg)
             break;
         case 'einstellen':
-            employ(args, mention, msg.member, msg)
+            employ(args, mention, msg.member!, msg)
             break;
         default:
             return;
